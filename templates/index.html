@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Predict Travel Experience Rating</h2>
+        <form action="/predict" method="POST">
+            <label>User ID:</label>
+            <input type="number" name="user_id" required>
+
+            <label>Destination ID:</label>
+            <input type="number" name="destination_id" required>
+
+            <label>Visit Year:</label>
+            <input type="number" name="visit_year" required>
+
+            <label>Visit Month:</label>
+            <input type="number" name="visit_month" required>
+
+            <label>Visit Day:</label>
+            <input type="number" name="visit_day" required>
+
+            <button type="submit">Predict</button>
+        </form>
+    </div>
+</body>
+</html>
