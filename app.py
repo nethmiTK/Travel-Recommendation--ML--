@@ -16,7 +16,10 @@ def load_model(file_name):
 
 # Load models
 linear_regression_model = load_model('linear_regression.pkl')
-# Add other models like logistic_regression.pkl, decision_tree.pkl, svm.pkl, scaler.pkl
+logistic_regression_model = load_model('logistic_regression.pkl')
+decision_tree_model = load_model('decision_tree.pkl')
+svm_model = load_model('svm.pkl')
+scaler = load_model('scaler.pkl')
 
 @app.route('/')
 def index():
@@ -33,16 +36,30 @@ def predict():
     except ValueError:
         return "❌ Error: Invalid input. Please enter valid numerical values."
 
-    if not all([linear_regression_model]):  # Add other models here
-        return "❌ One or more models failed to load. Please check your .pkl files."
+    if not all([linear_regression_model, logistic_regression_model, decision_tree_model, svm_model, scaler]):
+        return "❌ One or more models failed to load."
 
-    # Example prediction (adjust for your use case)
     input_features = [[user_id, destination_id, visit_year, visit_month, visit_day]]
+    
+    # Example scaling (optional, depends on your model)
+    # scaled_input = scaler.transform(input_features)
 
-    # You might need to scale the input or transform it
-    prediction = linear_regression_model.predict(input_features)
+    # Example predictions
+    linear_pred = linear_regression_model.predict(input_features)[0]
+    logistic_pred = logistic_regression_model.predict(input_features)[0]
+    decision_tree_pred = decision_tree_model.predict(input_features)[0]
+    svm_pred = svm_model.predict(input_features)[0]
 
-    return render_template('index.html', prediction_result=prediction)
+    prediction_result = {
+        'Linear Regression': linear_pred,
+        'Logistic Regression': logistic_pred,
+        'Decision Tree': decision_tree_pred,
+        'SVM': svm_pred
+    }
+
+    print("✅ Predictions:", prediction_result)
+
+    return render_template('index.html', prediction_result=prediction_result)
 
 if __name__ == '__main__':
     app.run(debug=True)
